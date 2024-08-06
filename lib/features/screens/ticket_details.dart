@@ -1,6 +1,8 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:event_planner/features/models/seat_model.dart';
+import 'package:event_planner/features/screens/home_screen.dart';
+import 'package:event_planner/features/screens/navigation_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:event_planner/models/seat_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TicketDetails extends StatefulWidget {
@@ -77,20 +79,21 @@ class _TicketDetailsState extends State<TicketDetails> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.67,
-              decoration: BoxDecoration(
-                color: const Color(0xffFFFFFF),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
+            ClipPath(
+              clipper: InwardCircularCornerClipper(),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.54,
+                decoration: BoxDecoration(
+                  color: const Color(0xffFFFFFF),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 10.0),
+                  child: Column(children: [
                     Stack(
                       children: [
                         ClipRRect(
@@ -247,53 +250,78 @@ class _TicketDetailsState extends State<TicketDetails> {
                     ),
                     const SizedBox(height: 5.0),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.eventLocation,
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            color: Color(0xff343434),
-                            fontWeight: FontWeight.w700,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.eventLocation,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff343434),
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        Text(
-                          _seatsToString(),
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            color: Color(0xff343434),
-                            fontWeight: FontWeight.w700,
+                          Text(
+                            _seatsToString(),
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff343434),
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20.0),
-                      child: DottedLine(
-                        direction: Axis.horizontal,
-                        alignment: WrapAlignment.center,
-                        lineLength: double.infinity,
-                        lineThickness: 2.0,
-                        dashLength: 4.0,
-                        dashColor: Color(0xff8C939B),
-                        dashGapLength: 4.0,
-                        dashGapColor: Colors.white,
-                      ),
-                    ),
-                    Image.asset(
-                      "assets/images/bar_code.png",
-                      width: MediaQuery.of(context).size.width * 0.6,
-                    ),
-                    const SizedBox(height: 10.0),
-                    const Text("Scan the barcode"),
-                  ],
+                        ]),
+                  ]),
                 ),
               ),
             ),
-            // const SizedBox(height: 30.0),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: DottedLine(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.center,
+                  lineLength: double.infinity,
+                  lineThickness: 2.0,
+                  dashLength: 4.0,
+                  dashColor: Color(0xff8C939B),
+                  dashGapLength: 4.0,
+                  dashGapColor: Colors.white,
+                ),
+              ),
+            ),
+            ClipPath(
+              clipper: InwardCircularCornerClipperBarcode(),
+              child: Container(
+                height: MediaQuery.of(context).size.width * 0.37,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Color(0xffffffff),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 10.0),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        "assets/images/bar_code.png",
+                        width: MediaQuery.of(context).size.width * 0.6,
+                      ),
+                      const SizedBox(height: 10.0),
+                      const Text("Scan the barcode"),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             const Spacer(),
             GestureDetector(
-              onTap: () => _showToast(context),
+              onTap: () => {
+                _showToast(context),
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const NavigationScreen()),
+                    (d) => false)
+              },
               child: Container(
                 // width: double.infinity,
                 height: 60,
@@ -320,4 +348,78 @@ class _TicketDetailsState extends State<TicketDetails> {
       ),
     );
   }
+}
+
+class InwardCircularCornerClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    const radius = 20.0;
+    final path = Path();
+    path.moveTo(0, radius);
+    path.arcToPoint(
+      const Offset(radius, 0),
+      radius: const Radius.circular(radius),
+      // clockwise: false,
+    );
+    path.lineTo(size.width - radius, 0);
+    path.arcToPoint(
+      Offset(size.width, radius),
+      radius: const Radius.circular(radius),
+      // clockwise: false,
+    );
+    path.lineTo(size.width, size.height - radius);
+    path.arcToPoint(
+      Offset(size.width - radius, size.height),
+      radius: const Radius.circular(radius),
+      clockwise: false,
+    );
+    path.lineTo(radius, size.height);
+    path.arcToPoint(
+      Offset(0, size.height - radius),
+      radius: const Radius.circular(radius),
+      clockwise: false,
+    );
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class InwardCircularCornerClipperBarcode extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    const radius = 20.0;
+    final path = Path();
+    path.moveTo(0, radius);
+    path.arcToPoint(
+      const Offset(radius, 0),
+      radius: const Radius.circular(radius),
+      clockwise: false,
+    );
+    path.lineTo(size.width - radius, 0);
+    path.arcToPoint(
+      Offset(size.width, radius),
+      radius: const Radius.circular(radius),
+      clockwise: false,
+    );
+    path.lineTo(size.width, size.height - radius);
+    path.arcToPoint(
+      Offset(size.width - radius, size.height),
+      radius: const Radius.circular(radius),
+      // clockwise: false,
+    );
+    path.lineTo(radius, size.height);
+    path.arcToPoint(
+      Offset(0, size.height - radius),
+      radius: const Radius.circular(radius),
+      // clockwise: false,
+    );
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

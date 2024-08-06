@@ -317,7 +317,7 @@ class _EventDetailsState extends State<EventDetails> {
                   ),
                   child: Center(
                     child: Text(
-                      "Booking Now",
+                      "Book Now",
                       style: TextStyle(
                           fontSize: 18.0,
                           color: Color(0xffFFFFFF),

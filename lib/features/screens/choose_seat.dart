@@ -1,5 +1,5 @@
+import 'package:event_planner/features/models/seat_model.dart';
 import 'package:event_planner/features/screens/ticket_details.dart';
-import 'package:event_planner/models/seat_model.dart';
 import 'package:flutter/material.dart';
 
 List<Seat> generateSeats() {
