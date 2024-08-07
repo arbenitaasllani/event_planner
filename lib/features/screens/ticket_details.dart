@@ -1,9 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:event_planner/features/models/seat_model.dart';
-import 'package:event_planner/features/screens/home_screen.dart';
 import 'package:event_planner/features/screens/navigation_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class TicketDetails extends StatefulWidget {
   final String imageUrl;

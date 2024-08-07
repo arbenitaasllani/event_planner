@@ -28,7 +28,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       const HomeScreen(),
       const MyTicketScreen(),
       const FavoriteScreen(),
-      const MessageScreen(),
+      MessageScreen(),
       const ProfileScreen(),
     ];
   }

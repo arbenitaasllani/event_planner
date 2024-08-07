@@ -1,8 +1,5 @@
-import 'dart:ui';
-
-import 'package:event_planner/features/screens/event_details.dart';
+import 'package:event_planner/features/screens/popular_events.dart';
 import 'package:event_planner/features/widgets/button_widget.dart';
-import 'package:event_planner/features/widgets/event_card.dart';
 import 'package:event_planner/features/widgets/scroll_animation.dart';
 import 'package:flutter/material.dart';
 
@@ -185,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                print("see all button pressed");
+                                Navigator.push(context, MaterialPageRoute(builder: (_) => PopularEvents()));
                               },
                               child: const Text(
                                 "See All",

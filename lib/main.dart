@@ -1,4 +1,3 @@
-import 'package:event_planner/features/screens/home_screen.dart';
 import 'package:event_planner/features/screens/navigation_screen.dart';
 import 'package:flutter/material.dart';
 

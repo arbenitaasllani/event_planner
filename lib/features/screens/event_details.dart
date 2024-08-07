@@ -1,4 +1,5 @@
 import 'package:event_planner/features/screens/choose_seat.dart';
+import 'package:event_planner/features/screens/location_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_stack/flutter_image_stack.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -53,8 +54,8 @@ class _EventDetailsState extends State<EventDetails> {
         backgroundColor: const Color(0xffFFFFFF),
         title: const Text("Event Details"),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
+          const Padding(
+            padding: EdgeInsets.only(right: 15.0),
             child: Icon(Icons.more_vert),
           )
         ],
@@ -251,24 +252,64 @@ class _EventDetailsState extends State<EventDetails> {
                   style:
                       TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0)),
               const SizedBox(height: 10.0),
-              Container(
-                height: 250,
-                width: double.infinity,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: FlutterMap(
-                    options: const MapOptions(
-                      initialCenter: LatLng(42.6629, 21.1655),
-                      initialZoom: 9.2,
-                    ),
-                    children: [
-                      TileLayer(
-                        urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              Stack(
+                children: [
+                  Container(
+                    height: 250,
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: FlutterMap(
+                        options: const MapOptions(
+                          initialCenter: LatLng(42.6629, 21.1655),
+                          initialZoom: 9.2,
+                        ),
+                        children: [
+                          TileLayer(
+                            urlTemplate:
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  Positioned(
+                      top: 10,
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => LocationScreen(
+                                        imageUrl: widget.imageUrl,
+                                        eventName: widget.eventName,
+                                        eventLocation: widget.eventLocation,
+                                        eventTime: widget.eventTime,
+                                        eventPrice: widget.eventPrice,
+                                        seatsTaken: widget.seatsTaken,
+                                        capacity: widget.capacity,
+                                        eventType: widget.eventType,
+                                      )));
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              color: Color(0xffffffff),
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                  color: Color(0xff4B78E4), width: 2)),
+                          child: Center(
+                            child: Image.asset(
+                              "assets/icons/location_icon.png",
+                              width: 25,
+                              height: 25,
+                            ),
+                          ),
+                        ),
+                      ))
+                ],
               ),
               const SizedBox(height: 10.0),
             ],
@@ -313,9 +354,9 @@ class _EventDetailsState extends State<EventDetails> {
                   height: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Color(0xffF35D43),
+                    color: const Color(0xffF35D43),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Book Now",
                       style: TextStyle(
