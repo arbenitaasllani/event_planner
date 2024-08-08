@@ -1,3 +1,4 @@
+import 'package:event_planner/features/models/favorites.dart';
 import 'package:event_planner/features/screens/event_details.dart';
 import 'package:flutter/material.dart';
 
@@ -10,19 +11,18 @@ class EventCard extends StatefulWidget {
   final String seatsTaken;
   final String capacity;
   final String eventType;
-  // final VoidCallback? function;
 
-  const EventCard(
-      {super.key,
-      required this.imageUrl,
-      required this.eventName,
-      required this.eventLocation,
-      required this.eventTime,
-      required this.eventPrice,
-      required this.capacity,
-      required this.eventType,
-      required this.seatsTaken,
-      });
+  const EventCard({
+    Key? key,
+    required this.imageUrl,
+    required this.eventName,
+    required this.eventLocation,
+    required this.eventTime,
+    required this.eventPrice,
+    required this.capacity,
+    required this.eventType,
+    required this.seatsTaken,
+  }) : super(key: key);
 
   @override
   State<EventCard> createState() => _EventCardState();
@@ -31,9 +31,29 @@ class EventCard extends StatefulWidget {
 class _EventCardState extends State<EventCard> {
   bool isFavorite = false;
 
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = favoriteEvents.any((event) => event.eventName == widget.eventName);
+  }
+
   void toggleFavorite() {
     setState(() {
       isFavorite = !isFavorite;
+      if (isFavorite) {
+        favoriteEvents.add(EventDetails(
+          imageUrl: widget.imageUrl,
+          eventName: widget.eventName,
+          eventLocation: widget.eventLocation,
+          eventTime: widget.eventTime,
+          eventPrice: widget.eventPrice,
+          capacity: widget.capacity,
+          eventType: widget.eventType,
+          seatsTaken: widget.seatsTaken,
+        ));
+      } else {
+        favoriteEvents.removeWhere((event) => event.eventName == widget.eventName);
+      }
     });
   }
 
@@ -82,7 +102,6 @@ class _EventCardState extends State<EventCard> {
               ],
               borderRadius: BorderRadius.circular(20)),
           width: MediaQuery.of(context).size.width * 0.85,
-          // width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -99,14 +118,13 @@ class _EventCardState extends State<EventCard> {
                         top: 15,
                         left: 10,
                         child: Container(
-                          // width: 120,
                           height: 35,
                           decoration: BoxDecoration(
                               color: const Color(0xffFEFEFE),
                               borderRadius: BorderRadius.circular(50)),
                           child: Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Center(
                               child: Text(
                                 widget.eventType,
@@ -136,9 +154,7 @@ class _EventCardState extends State<EventCard> {
                                 isFavorite
                                     ? Icons.favorite
                                     : Icons.favorite_border,
-                                color: isFavorite
-                                    ? const Color(0xffF45D43)
-                                    : const Color(0xffF45D43),
+                                color: const Color(0xffF45D43),
                                 size: 25,
                               ),
                             ),

@@ -1,3 +1,4 @@
+import 'package:event_planner/features/models/favorites.dart';
 import 'package:event_planner/features/screens/choose_seat.dart';
 import 'package:event_planner/features/screens/location_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +35,29 @@ class _EventDetailsState extends State<EventDetails> {
   bool isFavorite = false;
   bool isExpanded = false;
 
+  @override
+  void initState() {
+    super.initState();
+    isFavorite =
+        favoriteEvents.any((event) => event.eventName == widget.eventName);
+  }
+
   void toggleFavorite() {
     setState(() {
       isFavorite = !isFavorite;
+      if (isFavorite) {
+        favoriteEvents.add(EventDetails(
+            imageUrl: widget.imageUrl,
+            eventName: widget.eventName,
+            eventLocation: widget.eventLocation,
+            eventTime: widget.eventTime,
+            eventPrice: widget.eventPrice,
+            seatsTaken: widget.seatsTaken,
+            capacity: widget.capacity,
+            eventType: widget.eventType));
+      } else {
+        favoriteEvents.removeWhere((event) => event.eventName == widget.eventName);
+      }
     });
   }
 

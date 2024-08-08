@@ -27,7 +27,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     _children = [
       const HomeScreen(),
       const MyTicketScreen(),
-      const FavoriteScreen(),
+      FavoriteScreen(),
       MessageScreen(),
       const ProfileScreen(),
     ];

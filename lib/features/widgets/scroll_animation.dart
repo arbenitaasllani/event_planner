@@ -43,14 +43,34 @@ class _ScrollingWidgetState extends State<ScrollingWidget>
       eventType: "Art Exhibition",
       seatsTaken: '50',
     ),
+    const EventCard(
+      imageUrl: "assets/images/tour.jpeg",
+      eventName: "Tour around the Ocean",
+      eventLocation: "Philippines",
+      eventTime: "10.08.2024 | 08:00",
+      eventPrice: "\$145",
+      capacity: "/50 Participants",
+      eventType: "Tour",
+      seatsTaken: '48',
+    ),
+    const EventCard(
+      imageUrl: "assets/images/live_concert2.jpg",
+      eventName: "Outdoor Live Concert",
+      eventLocation: "Prishtina, KS",
+      eventTime: "12.09.2024 | 20:00",
+      eventPrice: "\$40",
+      capacity: "/120 Participants",
+      eventType: "Live Concert",
+      seatsTaken: '100',
+    ),
   ];
 
   @override
   void initState() {
     super.initState();
     _animationController =
-    AnimationController(vsync: this, duration: const Duration(seconds: 30))
-      ..repeat();
+        AnimationController(vsync: this, duration: const Duration(seconds: 60))
+          ..repeat();
   }
 
   @override
@@ -80,7 +100,7 @@ class _ScrollingWidgetState extends State<ScrollingWidget>
   }
 
   List<Widget> _buildInfiniteChildren() {
-    return List.generate(_eventPaths.length * 5, (index) {
+    return List.generate(_eventPaths.length * 2, (index) {
       final event = _eventPaths[index % _eventPaths.length];
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
