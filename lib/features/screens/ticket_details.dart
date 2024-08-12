@@ -90,7 +90,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 20.0, horizontal: 10.0),
+                      vertical: 10.0, horizontal: 10.0),
                   child: Column(children: [
                     Stack(
                       children: [

@@ -3,8 +3,21 @@ import 'package:event_planner/features/widgets/button_widget.dart';
 import 'package:event_planner/features/widgets/scroll_animation.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String? _selectedEventType;
+
+  void _onEventTypeSelected(String eventType, bool isSelected) {
+    setState(() {
+      _selectedEventType = isSelected ? eventType : null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,17 +150,37 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 15.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ButtonWidget(text: "Live Concert"),
-                    ButtonWidget(text: "Art Exhibition"),
-                    ButtonWidget(text: "Workshop"),
-                    ButtonWidget(text: "Tour"),
-                    ButtonWidget(text: "Others"),
+                    ButtonWidget(
+                      text: "All Events",
+                      onSelected: (isSelected) =>
+                          _onEventTypeSelected('All Events', isSelected),
+                    ), ButtonWidget(
+                      text: "Live Concert",
+                      onSelected: (isSelected) =>
+                          _onEventTypeSelected('Live Concert', isSelected),
+                    ),
+                    ButtonWidget(
+                      text: "Art Exhibition",
+                      onSelected: (isSelected) =>
+                          _onEventTypeSelected('Art Exhibition', isSelected),
+                    ),
+                    ButtonWidget(
+                      text: "Workshop",
+                      onSelected: (isSelected) =>
+                          _onEventTypeSelected('Workshop', isSelected),
+                    ),
+                    ButtonWidget(
+                      text: "Tour",
+                      onSelected: (isSelected) =>
+                          _onEventTypeSelected('Tour', isSelected),
+                    ),
+                    // ButtonWidget(text: "Others"),
                   ],
                 ),
               ),
@@ -182,7 +215,10 @@ class HomeScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => PopularEvents()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => PopularEvents()));
                               },
                               child: const Text(
                                 "See All",

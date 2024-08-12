@@ -31,7 +31,7 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
   }
 
   void _scrollToMiddle() {
-    final double middlePosition = (_middleIndex * 75.0) - (MediaQuery.of(context).size.width / 2) + 37.5;
+    final double middlePosition = (_middleIndex * 72.0) - (MediaQuery.of(context).size.width / 2) + 36;
     _scrollController.jumpTo(middlePosition);
   }
 

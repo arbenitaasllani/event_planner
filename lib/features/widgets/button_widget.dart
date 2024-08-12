@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ButtonWidget extends StatefulWidget {
-  const ButtonWidget({Key? key, required this.text}) : super(key: key);
+  const ButtonWidget({Key? key, required this.text, required this.onSelected}) : super(key: key);
 
   final String text;
+  final ValueChanged<bool> onSelected;
 
   @override
   _ButtonWidgetState createState() => _ButtonWidgetState();
@@ -19,6 +20,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         onTap: () {
           setState(() {
             _isChecked = !_isChecked;
+            widget.onSelected(_isChecked);
           });
         },
         child: Padding(

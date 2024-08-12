@@ -12,7 +12,9 @@ class _PopularEventsState extends State<PopularEvents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffffffff),
       appBar: AppBar(
+        backgroundColor: Color(0xffffffff),
         title: const Text("Popular Events"),
       ),
       body: const Padding(
@@ -33,7 +35,7 @@ class _PopularEventsState extends State<PopularEvents> {
                   eventType: "Art Exhibition",
                   seatsTaken: '50',
                 ),
-                const SizedBox(height: 15.0),
+                SizedBox(height: 15.0),
                 EventCard(
                   imageUrl: "assets/images/live_concert.jpg",
                   eventName: "Newport Beach Jazz Festival",
@@ -44,7 +46,7 @@ class _PopularEventsState extends State<PopularEvents> {
                   eventType: "Live Concert",
                   seatsTaken: '680',
                 ),
-                const SizedBox(height: 15.0),
+                SizedBox(height: 15.0),
                 EventCard(
                   imageUrl: "assets/images/workshop_image.jpg",
                   eventName: "Civil Engineering Workshop",
@@ -54,6 +56,26 @@ class _PopularEventsState extends State<PopularEvents> {
                   capacity: "/500 Participants",
                   eventType: "Workshop",
                   seatsTaken: '430',
+                ),
+                EventCard(
+                  imageUrl: "assets/images/tour.jpeg",
+                  eventName: "Tour around the Ocean",
+                  eventLocation: "Philippines",
+                  eventTime: "10.08.2024 | 08:00",
+                  eventPrice: "\$145",
+                  capacity: "/50 Participants",
+                  eventType: "Tour",
+                  seatsTaken: '48',
+                ),
+                EventCard(
+                  imageUrl: "assets/images/live_concert2.jpg",
+                  eventName: "Outdoor Live Concert",
+                  eventLocation: "Prishtina, KS",
+                  eventTime: "12.09.2024 | 20:00",
+                  eventPrice: "\$40",
+                  capacity: "/120 Participants",
+                  eventType: "Live Concert",
+                  seatsTaken: '100',
                 ),
               ],
             ),
