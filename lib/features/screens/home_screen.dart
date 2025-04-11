@@ -4,18 +4,28 @@ import 'package:event_planner/features/widgets/scroll_animation.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? _selectedEventType;
+  Set<String> selectedEventTypes = {'All'};
 
-  void _onEventTypeSelected(String eventType, bool isSelected) {
+  void _onEventTypeChanged(String eventType) {
     setState(() {
-      _selectedEventType = isSelected ? eventType : null;
+      if (selectedEventTypes.contains(eventType)) {
+        selectedEventTypes.remove(eventType);
+      } else {
+        selectedEventTypes.add(eventType);
+      }
+
+      if (selectedEventTypes.isEmpty) {
+        selectedEventTypes.add('All');
+      } else if (selectedEventTypes.contains('All') && selectedEventTypes.length > 1) {
+        selectedEventTypes.remove('All');
+      }
     });
   }
 
@@ -156,31 +166,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ButtonWidget(
-                      text: "All Events",
-                      onSelected: (isSelected) =>
-                          _onEventTypeSelected('All Events', isSelected),
-                    ), ButtonWidget(
-                      text: "Live Concert",
-                      onSelected: (isSelected) =>
-                          _onEventTypeSelected('Live Concert', isSelected),
-                    ),
-                    ButtonWidget(
-                      text: "Art Exhibition",
-                      onSelected: (isSelected) =>
-                          _onEventTypeSelected('Art Exhibition', isSelected),
-                    ),
-                    ButtonWidget(
-                      text: "Workshop",
-                      onSelected: (isSelected) =>
-                          _onEventTypeSelected('Workshop', isSelected),
-                    ),
-                    ButtonWidget(
-                      text: "Tour",
-                      onSelected: (isSelected) =>
-                          _onEventTypeSelected('Tour', isSelected),
-                    ),
-                    // ButtonWidget(text: "Others"),
+                    ButtonWidget(text: 'All', onSelect: _onEventTypeChanged, isSelected: selectedEventTypes.contains('All')),
+                    ButtonWidget(text: 'Live Concert', onSelect: _onEventTypeChanged, isSelected: selectedEventTypes.contains('Live Concert')),
+                    ButtonWidget(text: 'Workshop', onSelect: _onEventTypeChanged, isSelected: selectedEventTypes.contains('Workshop')),
+                    ButtonWidget(text: 'Art Exhibition', onSelect: _onEventTypeChanged, isSelected: selectedEventTypes.contains('Art Exhibition')),
+                    ButtonWidget(text: 'Tour', onSelect: _onEventTypeChanged, isSelected: selectedEventTypes.contains('Tour')),
                   ],
                 ),
               ),
@@ -228,8 +218,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        const SingleChildScrollView(
-                          child: ScrollingWidget(),
+                        SingleChildScrollView(
+                          child: ScrollingWidget(eventTypes: selectedEventTypes),
                           scrollDirection: Axis.horizontal,
                         ),
 

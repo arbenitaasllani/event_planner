@@ -2,7 +2,9 @@ import 'package:event_planner/features/widgets/event_card.dart';
 import 'package:flutter/material.dart';
 
 class ScrollingWidget extends StatefulWidget {
-  const ScrollingWidget({super.key});
+  const ScrollingWidget({super.key, required this.eventTypes});
+
+  final Set<String> eventTypes;
 
   @override
   State<ScrollingWidget> createState() => _ScrollingWidgetState();
@@ -69,8 +71,8 @@ class _ScrollingWidgetState extends State<ScrollingWidget>
   void initState() {
     super.initState();
     _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 60))
-          ..repeat();
+    AnimationController(vsync: this, duration: const Duration(seconds: 60))
+      ..repeat();
   }
 
   @override
@@ -100,8 +102,12 @@ class _ScrollingWidgetState extends State<ScrollingWidget>
   }
 
   List<Widget> _buildInfiniteChildren() {
-    return List.generate(_eventPaths.length * 2, (index) {
-      final event = _eventPaths[index % _eventPaths.length];
+    final filteredEvents = widget.eventTypes.contains('All')
+        ? _eventPaths
+        : _eventPaths.where((event) => widget.eventTypes.contains(event.eventType)).toList();
+
+    return List.generate(filteredEvents.length * 2, (index) {
+      final event = filteredEvents[index % filteredEvents.length];
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: EventCard(
